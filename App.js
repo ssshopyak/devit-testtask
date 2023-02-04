@@ -1,12 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import {observer} from 'mobx-react-lite';
+import Auth from './src/store/auth';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SignUpScreen from './src/screens/SignUpScreen';
+import LogInScreen from './src/screens/LoginInScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import { createTable } from './src/database';
+const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App () {
+  if(Auth.isAuthorizated){
+    return <ProfileScreen />
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name='LogIn' component={LogInScreen}/>
+        <Stack.Screen name='SignUp' component={SignUpScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -18,3 +36,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default observer(App);
