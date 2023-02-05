@@ -15,6 +15,8 @@ import Auth from '../../store/auth';
 import Show from '../../assets/icons/show.png'
 import Hide from '../../assets/icons/hide.png'
 import { toGetData } from '../../database';
+import Button from '../../components/Button';
+import Logo from '../../components/Logo';
 
 export default function LogInScreen({navigation}) {
     const [data,setData] = useState([])
@@ -23,7 +25,7 @@ export default function LogInScreen({navigation}) {
     const [isVisiblePass, setIsVisiblePass] = useState(false)
   
     const passwordInputRef = createRef();
-
+    
     const handlePasswordVisibility = () => {
       setIsVisiblePass(!isVisiblePass)
     }
@@ -64,21 +66,10 @@ export default function LogInScreen({navigation}) {
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{
         flex: 1,
-        alignContent: 'center',
       }}>
       <View>
         <KeyboardAvoidingView enabled>
-          <View style={{alignItems: 'center'}}>
-            <Image
-              source={require('../../assets/icons/logo.png')}
-              style={{
-                width: '50%',
-                height: 100,
-                marginTop: 50,
-                resizeMode: 'contain',
-              }}
-            />
-          </View>
+          <Logo/>
           <View>
             <Text style={styles.titleText}>Log In To Woorkroom</Text>
           </View>
@@ -96,7 +87,6 @@ export default function LogInScreen({navigation}) {
                 passwordInputRef.current &&
                 passwordInputRef.current.focus()
               }
-              underlineColorAndroid="#f000"
               blurOnSubmit={false}
             />
           </View>
@@ -112,19 +102,16 @@ export default function LogInScreen({navigation}) {
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
               secureTextEntry={isVisiblePass}
-              underlineColorAndroid="#f000"
               returnKeyType="next"
             />
             <Pressable onPress={handlePasswordVisibility} style={{justifyContent:'center'}}>
               <Image style={{height:24, width:24, position:'absolute', alignSelf:'center', right: 15, tintColor:'#5E6272'}} source={isVisiblePass ? Show : Hide}/>
             </Pressable>
           </View>
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitPress}>
-            <Text style={styles.buttonTextStyle}>Log In</Text>
-          </TouchableOpacity>
+          <Button
+            onPress={handleSubmitPress}
+            title={'Log In'}
+          />
           <Text
             style={styles.registerTextStyle}
             onPress={() => navigation.navigate('SignUp')}>
@@ -157,25 +144,6 @@ const styles = StyleSheet.create({
       marginLeft: 35,
       marginRight: 35,
       margin: 10,
-    },
-    buttonStyle: {
-      backgroundColor: '#FFC612',
-      borderWidth: 0,
-      color: '#000',
-      borderColor: '#FFC612',
-      height: 60,
-      alignItems: 'center',
-      justifyContent:'center',
-      borderRadius: 14,
-      marginLeft: 35,
-      marginRight: 35,
-      marginTop: 20,
-      marginBottom: 25,
-    },
-    buttonTextStyle: {
-      color: '#000',
-      paddingVertical: 10,
-      fontSize: 16,
     },
     inputStyle: {
       paddingVertical:10,

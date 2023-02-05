@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { useEffect } from 'react';
 import {observer} from 'mobx-react-lite';
 import Auth from './src/store/auth';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUpScreen from './src/screens/SignUpScreen';
 import LogInScreen from './src/screens/LoginInScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import { createTable } from './src/database';
 const Stack = createNativeStackNavigator();
 
 function App () {

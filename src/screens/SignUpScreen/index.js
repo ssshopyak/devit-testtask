@@ -1,4 +1,4 @@
-import React, {useState, createRef, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -6,39 +6,34 @@ import {
   Text,
   Image,
   KeyboardAvoidingView,
-  Keyboard,
+  Pressable,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import validator from 'validator';
 import { toRegister, createTable } from '../../database';
-
+import OTPInputView from '@twotalltotems/react-native-otp-input'
+import PhoneInput from "react-native-phone-number-input";
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import Logo from '../../components/Logo';
 
 const RegisterScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState(0);
-  const [userAddress, setUserAddress] = useState('');
+  const [userPhone, setUserPhone] = useState(0)
+  const [phoneCode, setPhoneCode] = useState('')
+  const [phoneForValidation, setPhoneForValidation] = useState('')
   const [userPassword, setUserPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [errortext, setErrortext] = useState('');
-  const [
-    isRegistraionSuccess,
-    setIsRegistraionSuccess
-  ] = useState(false);
-
+  const [userConfirmPassword, setUserConfirmPassword] = useState('')
+  const phoneInput = useRef();
 
   useEffect(()=>{
     createTable()
-  },[])
-
-  const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
-  const passwordInputRef = createRef();
+  },[userPhone])
 
   const handleSubmitButton = () => {
-    setErrortext('');
-    if (!userName) {
+    if (!phoneForValidation) {
       alert('Please fill Name');
       return;
     }
@@ -46,142 +41,96 @@ const RegisterScreen = ({navigation}) => {
       alert('Please fill Email');
       return;
     }
-    if (!userAge) {
-      alert('Please fill Age');
-      return;
-    }
     if (!userPassword) {
       alert('Please fill Password');
       return;
     }
-    //Show Loader
-    setLoading(true);
-    setIsRegistraionSuccess(true);
-    toRegister(userName,userEmail,userAge,userPassword)
+    if (!userConfirmPassword) {
+      alert('Please confirm Password');
+      return;
+    }
+    if (!phoneCode) {
+      alert('Please fill code');
+      return;
+    }
+    if (userPassword !== userConfirmPassword) {
+      alert(`confirm password doesn't match`)
+      return;
+    }
+    if (!validator.isEmail(userEmail)) {
+      alert(`email isn't valid`)
+      return;
+    }
+    toRegister(userName,userEmail,userPhone,userPassword)
   };
 
-  if (isRegistraionSuccess) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.successTextStyle}>
-          Registration Successful
-        </Text>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('LogIn')}>
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
   return (
     <View style={{flex: 1}}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}>
-        <View style={{alignItems: 'center'}}>
-          <Image
-            source={require('../../assets/icons/logo.png')}
-            style={{
-              width: '50%',
-              height: 100,
-              marginTop: 50,
-              resizeMode: 'contain',
-              margin: 30,
-            }}
-          />
-        </View>
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <Logo/>
         <View>
             <Text style={styles.titleText}>Sign Up To woorkroom</Text>
           </View>
         <KeyboardAvoidingView enabled>
           <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserName) => setUserName(UserName)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Name"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                emailInputRef.current && emailInputRef.current.focus()
-              }
-              blurOnSubmit={false}
+            <Text style={styles.underInputText}>Phone Number</Text>
+            <PhoneInput
+              flagButtonStyle={[styles.phoneInput,{marginRight:20}]}
+              textContainerStyle={[styles.phoneInput]}
+              textInputStyle={{fontSize:16}}
+              codeTextStyle={{color:'#9795A4'}}
+              ref={phoneInput}
+              defaultCode="UA"
+              layout="second"
+              onChangeText={(text) => {
+                setPhoneForValidation(text)
+              }}
+              onChangeFormattedText={(text) => {
+                setUserPhone(text);
+              }}
             />
           </View>
           <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Email"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="email-address"
-              ref={emailInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                passwordInputRef.current &&
-                passwordInputRef.current.focus()
-              }
-              blurOnSubmit={false}
+            <Text style={styles.underInputText}>Code</Text>
+            <OTPInputView
+              pinCount={4}
+              style={{width: '60%', height: 60}}
+              autoFocusOnLoad
+              codeInputFieldStyle={styles.underlineStyleBase}
+              codeInputHighlightStyle={styles.underlineStyleHighLighted}
+              onCodeFilled={(code)=>{
+                setPhoneCode(code)
+              }}
             />
           </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserPassword) =>
-                setUserPassword(UserPassword)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="Enter Password"
-              placeholderTextColor="#8b9cb5"
-              ref={passwordInputRef}
-              returnKeyType="next"
-              secureTextEntry={true}
-              onSubmitEditing={() =>
-                ageInputRef.current &&
-                ageInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Phone"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              ref={ageInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                addressInputRef.current &&
-                addressInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          {errortext != '' ? (
-            <Text style={styles.errorTextStyle}>
-              {errortext}
-            </Text>
-          ) : null}
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
-          </TouchableOpacity>
+          <Input
+            title={'Your Name'}
+            setValue={setUserName}
+            isPassword={false}
+            keyboardType={'default'}
+          />
+          <Input
+            title={'Your Email'}
+            setValue={setUserEmail}
+            isPassword={false}
+            keyboardType={'email-address'}
+          />
+          <Input
+            title={'Password'}
+            setValue={setUserPassword}
+            isPassword={true}
+            keyboardType={'default'}
+          />
+          <Input
+            title={'Password'}
+            setValue={setUserConfirmPassword}
+            isPassword={true}
+            keyboardType={'default'}
+          />
+          <Button
+            onPress={handleSubmitButton}
+            title={'Next'}
+          />
           <Text
             style={styles.registerTextStyle}
             onPress={() => navigation.navigate('LogIn')}>
@@ -215,33 +164,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
-    margin: 10,
-  },
-  buttonStyle: {
-    backgroundColor: '#FFC612',
-    borderWidth: 0,
-    color: '#000',
-    borderColor: '#FFC612',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 14,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 25,
-  },
-  buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
+    marginBottom: 20,
   },
   inputStyle: {
+    paddingVertical:10,
     flex: 1,
-    color: '#000',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
+    color: '#1F1D1D',
+    borderBottomWidth: 1,
     borderColor: '#dadae8',
   },
   errorTextStyle: {
@@ -255,4 +184,36 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 30,
   },
+  underlineStyleBase: {
+    marginRight:20,
+    fontSize: 16,
+    color: '#1F1D1D',
+    width: 50,
+    height: 50,
+    borderRadius:12,
+    borderWidth: 1,
+  },
+  underlineStyleHighLighted: {
+    borderColor: '#FFC612',
+  },
+  phoneInput: {
+    height:50,
+    borderWidth:1, 
+    borderRadius:15, 
+    borderColor:'#D7D7D7', 
+  },
+  underInputText: {
+    position:'absolute', 
+    bottom:40, 
+    color:'#9795A4'
+  },
+  iconPasswordVisibility: {
+    height:24, 
+    width:24, 
+    position:'absolute', 
+    alignSelf:'center', 
+    right: 15, 
+    tintColor:'#5E6272',
+  }
+
 });
