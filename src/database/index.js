@@ -26,19 +26,19 @@ export const toRegister = (name,email,phone,password) => {
     Auth.ToSetEmail(email)
 }
 
-export const toGetData = ({setData}) => {
+export const toGetData = new Promise((resolve, reject) => {
     db.transaction((tx)=>{
         tx.executeSql(
             "SELECT * FROM Users", null,
             (tx,results) => {
-                setData(results.rows._array)
+                resolve(results.rows._array)
             },
             (tx,error) => {
-                console.log(error)
+                reject(error)
             }
         )
     })
-}
+})
 
 export const ToGetDataByEmail = new Promise((resolve,reject) => {
     db.transaction((tx)=>{
@@ -54,3 +54,12 @@ export const ToGetDataByEmail = new Promise((resolve,reject) => {
         )
     })
 })
+
+export const UpdateData = (name,email,phone,position,skype) => {
+    db.transaction((tx)=>{
+        tx.executeSql(
+            `UPDATE Users SET Name = ${name},Email = ${email},Phone = ${phone},Position = ${position}, Skype = ${skype} WHERE Email = ${email} `,
+            error => { console.log(error)}
+        )
+    })
+}

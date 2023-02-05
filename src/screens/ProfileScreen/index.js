@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Image, ActivityIndicator,TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Image, ActivityIndicator,TextInput, KeyboardAvoidingView } from 'react-native';
 import Auth from '../../store/auth';
 import Avatar from '../../assets/icons/avatar.png'
-import { ToGetDataByEmail } from '../../database';
+import { ToGetDataByEmail, UpdateData } from '../../database';
 import { useEffect, useState } from 'react';
 import Colors from '../../assets/colors';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(true)
@@ -32,6 +33,10 @@ export default function ProfileScreen() {
       setUserSkype(userData?.Skype)
     })
     setIsLoading(false)
+  }
+
+  const saveData = () => {
+    UpdateData(userName,userEmail,userPhone,userPosition,userSkype)
   }
 
   useEffect(()=>{
@@ -62,7 +67,7 @@ export default function ProfileScreen() {
         <Text style={styles.avatarTitle}>Mike Tyson</Text>
         <Text style={styles.avatarTextBody}>UI/UX Designer</Text>
       </View>
-      <View>
+      <KeyboardAvoidingView>
         <Input
           value={userName}
           editable={isEditing}
@@ -94,8 +99,14 @@ export default function ProfileScreen() {
           setValue={setUserSkype}
           editable={isEditing}
           title={'Skype'}
-        />                      
-      </View>
+        />
+        { isEditing && 
+          <Button
+            title={'Save'}
+            onPress={saveData}
+          />        
+        }                      
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

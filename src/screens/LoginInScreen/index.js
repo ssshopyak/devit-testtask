@@ -42,7 +42,9 @@ export default function LogInScreen({navigation}) {
 
   useEffect(()=>{
     const unsubscribe = navigation.addListener('focus', () => {
-      toGetData({setData})
+      toGetData.then((res)=>{
+        setData(res)
+      })
     });
     return unsubscribe;
   },[navigation])
