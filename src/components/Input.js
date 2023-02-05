@@ -2,11 +2,12 @@ import { Pressable, Text, StyleSheet,TextInput, Image, View } from "react-native
 import { useState } from "react";
 import Show from '../assets/icons/show.png'
 import Hide from '../assets/icons/hide.png'
+import Colors from "../assets/colors";
 
-const Input = ({setValue, title, isPassword, keyboardType}) => {
+const Input = ({value, setValue, title, isPassword=false, editable=true ,keyboardType='default'}) => {
     const [isVisiblePass, setIsVisiblePass] = useState(false)
 
-    const handlePasswordVisibility = () => {
+    const togglePasswordVisibility = () => {
       setIsVisiblePass(!isVisiblePass)
     }
 
@@ -14,8 +15,10 @@ const Input = ({setValue, title, isPassword, keyboardType}) => {
         <View style={styles.SectionStyle}>
             <Text style={styles.underInputText}>{title}</Text>
             <TextInput
+              editable={editable}
               style={styles.inputStyle}
               onChangeText={(text) => setValue(text)}
+              value={value}
               secureTextEntry={isVisiblePass}
               keyboardType={keyboardType}
               returnKeyType="next"
@@ -23,7 +26,7 @@ const Input = ({setValue, title, isPassword, keyboardType}) => {
             />
             {
             isPassword &&
-                <Pressable onPress={handlePasswordVisibility} style={{justifyContent:'center'}}>
+                <Pressable onPress={togglePasswordVisibility} style={{justifyContent:'center'}}>
                     <Image style={styles.iconPasswordVisibility} source={isVisiblePass ? Show : Hide}/>
                 </Pressable>
             }
@@ -42,12 +45,12 @@ const styles = StyleSheet.create({
       underInputText: {
         position:'absolute', 
         bottom:40, 
-        color:'#9795A4'
+        color:Colors.body
       },
       inputStyle: {
         paddingVertical:10,
         flex: 1,
-        color: '#1F1D1D',
+        color: Colors.title,
         borderBottomWidth: 1,
         borderColor: '#dadae8',
       },
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
         position:'absolute', 
         alignSelf:'center', 
         right: 15, 
-        tintColor:'#5E6272',
+        tintColor: Colors.icon,
       }
 });
 

@@ -3,21 +3,45 @@ import Auth from '../../store/auth';
 import Avatar from '../../assets/icons/avatar.png'
 import { ToGetDataByEmail } from '../../database';
 import { useEffect, useState } from 'react';
+import Colors from '../../assets/colors';
+import Input from '../../components/Input';
 
 export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(true)
-  const [data, setData] = useState([])
-  const email = Auth.Email
+  const [isEditing, setIsEditing] = useState(false)
+  const [userData, setUserData] = useState(null)
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [userPhone, setUserPhone] = useState('')
+  const [userPosition, setUserPosition] = useState('')
+  const [userSkype, setUserSkype] = useState('')
+
+  const getData = async() => {
+    setIsLoading(true)
+    await ToGetDataByEmail
+    .then((res) => {
+      console.log(res)
+      setUserData(res[0])
+    })
+    .finally(()=>{
+      console.log(userData)
+      setUserName(userData?.Name)
+      setUserEmail(userData?.Email)
+      setUserPhone(userData?.Phone)
+      setUserPosition(userData?.Position)
+      setUserSkype(userData?.Skype)
+    })
+    setIsLoading(false)
+  }
 
   useEffect(()=>{
-    ToGetDataByEmail({email, setData})
-    setIsLoading(false)
-  },[])
+    getData()
+  },[userData])
   
   if (isLoading) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FFC612" />
+        <ActivityIndicator size="large" color={Colors.active} />
       </SafeAreaView>
     );
   }
@@ -25,7 +49,7 @@ export default function ProfileScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleTextContainer}>
-        <Text style={styles.titleText}>Edit Profile</Text>
+        <Text style={styles.titleText} onPress={()=>{setIsEditing(!isEditing)}}>Edit Profile</Text>
         <TouchableOpacity onPress={()=>{Auth.ToLogout()}} style={{position:'absolute', right:30,top:2,}}>
           <Text style={styles.logOutText}>Log out</Text>
         </TouchableOpacity>
@@ -38,76 +62,45 @@ export default function ProfileScreen() {
         <Text style={styles.avatarTitle}>Mike Tyson</Text>
         <Text style={styles.avatarTextBody}>UI/UX Designer</Text>
       </View>
-      <View style={styles.SectionStyle}>
-        <Text style={styles.underInputText}>Name</Text>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(text) => setUserName(text)}
-          returnKeyType="next"
-          blurOnSubmit={false}
+      <View>
+        <Input
+          value={userName}
+          editable={isEditing}
+          setValue={setUserName}
+          title={'Name'}
         />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Text style={styles.underInputText}>Email</Text>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(text) => setUserName(text)}
-          returnKeyType="next"
-          blurOnSubmit={false}
+        <Input
+          value={userEmail}
+          setValue={setUserEmail}
+          editable={isEditing}
+          title={'Email'}
+          keyboardType={'email-address'}
         />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Text style={styles.underInputText}>Phone</Text>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(text) => setUserName(text)}
-          returnKeyType="next"
-          blurOnSubmit={false}
+        <Input
+          value={userPhone}
+          setValue={setUserPhone}
+          editable={isEditing}
+          title={'Phone'}
+          keyboardType={'numeric'}
         />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Text style={styles.underInputText}>Position</Text>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(text) => setUserName(text)}
-          returnKeyType="next"
-          blurOnSubmit={false}
-        />
-      </View>
-      <View style={styles.SectionStyle}>
-        <Text style={styles.underInputText}>Skype</Text>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(text) => setUserName(text)}
-          returnKeyType="next"
-          blurOnSubmit={false}
-        />
+        <Input
+          value={userPosition}
+          setValue={setUserPosition}
+          editable={isEditing}
+          title={'Position'}
+        />    
+        <Input
+          value={userSkype}
+          setValue={setUserSkype}
+          editable={isEditing}
+          title={'Skype'}
+        />                      
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  inputStyle: {
-    paddingVertical:10,
-    flex: 1,
-    color: '#1F1D1D',
-    borderBottomWidth: 1,
-    borderColor: '#dadae8',
-  },
-  SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    marginBottom: 20,
-  },
-  underInputText: {
-    position:'absolute', 
-    bottom:40, 
-    color:'#9795A4'
-  },
   loadingContainer: {
     height:'100%',
     justifyContent:'center',
@@ -128,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   },
   logOutText: {
-    color:'#FFC612'
+    color:Colors.active
   },
   avatarIcon: {
     alignSelf:'center',
@@ -144,6 +137,6 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
   },
   avatarTextBody: {
-    color:'#9795A4'
+    color:Colors.body
   }
 });

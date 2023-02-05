@@ -11,6 +11,7 @@ import Button from '../../components/Button';
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import { toGetData } from '../../database';
+import Colors from '../../assets/colors';
 
 export default function LogInScreen({navigation}) {
   const [data,setData] = useState([])
@@ -50,18 +51,18 @@ export default function LogInScreen({navigation}) {
     <View style={styles.mainBody}>
     <ScrollView keyboardShouldPersistTaps="handled">
       <View>
-        <KeyboardAvoidingView enabled>
+        <KeyboardAvoidingView>
           <Logo textUnderLogo={'Log In To Woorkroom'}/>
           <View style={styles.inputContainer}>
             <Input
+              value={userEmail}
               setValue={setUserEmail}
-              keyboardType="email-address"
+              keyboardType={"email-address"}
               title={'Your Email'}
-              isPassword={false}
             />
             <Input
+              value={userPassword}
               setValue={setUserPassword}
-              keyboardType="default"
               title={'Password'}
               isPassword={true}
             />
@@ -73,7 +74,7 @@ export default function LogInScreen({navigation}) {
           <Text
             style={styles.registerTextStyle}
             onPress={() => navigation.navigate('SignUp')}>
-            New User? <Text style={{color:'#FFC612'}}> Create Account </Text>
+            New User? <Text style={{color:Colors.active}}> Create Account </Text>
           </Text>
         </KeyboardAvoidingView>
       </View>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     },
     registerTextStyle: {
       marginHorizontal: 5,
-      color: '#9795A4',
+      color: Colors.body,
       textAlign: 'center',
       fontSize: 14,
       alignSelf: 'center',

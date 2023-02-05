@@ -1,4 +1,5 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import Colors from "../assets/colors";
 
 const Button = ({onPress, title}) => {
     return (
@@ -13,10 +14,10 @@ const Button = ({onPress, title}) => {
 
 const styles = StyleSheet.create({
     buttonStyle: {
-        backgroundColor: '#FFC612',
+        backgroundColor: Colors.active,
         borderWidth: 0,
         color: '#000',
-        borderColor: '#FFC612',
+        borderColor: Colors.active,
         height: 60,
         width: '90%',
         alignItems: 'center',

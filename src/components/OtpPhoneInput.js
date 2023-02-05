@@ -2,8 +2,12 @@ import { View, StyleSheet, Text } from 'react-native'
 import PhoneInput from 'react-native-phone-number-input';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import { useRef } from 'react';
+import Colors from '../assets/colors';
+
 const OtpPhoneInput = ({setPhoneValidation, setPhone, setPhoneCode}) => {
+
     const phoneInput = useRef();
+    
     return(
         <View>
             <View style={styles.SectionStyle}>
@@ -12,7 +16,7 @@ const OtpPhoneInput = ({setPhoneValidation, setPhone, setPhoneCode}) => {
                     flagButtonStyle={[styles.phoneInput, { marginRight: 20 }]}
                     textContainerStyle={[styles.phoneInput]}
                     textInputStyle={{ fontSize: 16 }}
-                    codeTextStyle={{ color: '#9795A4' }}
+                    codeTextStyle={{ color: Colors.body }}
                     ref={phoneInput}
                     defaultCode="UA"
                     layout="second"
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     underInputText: {
         position:'absolute', 
         bottom:40, 
-        color:'#9795A4'
+        color:Colors.body
     },
     phoneInput: {
         height:50,
@@ -63,14 +67,14 @@ const styles = StyleSheet.create({
     underlineStyleBase: {
         marginRight:20,
         fontSize: 16,
-        color: '#1F1D1D',
+        color: Colors.title,
         width: 50,
         height: 50,
         borderRadius:12,
         borderWidth: 1,
     },
     underlineStyleHighLighted: {
-        borderColor: '#FFC612',
+        borderColor: Colors.active,
     },
 })
 

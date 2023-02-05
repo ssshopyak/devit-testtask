@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUpScreen from './src/screens/SignUpScreen';
 import LogInScreen from './src/screens/LoginInScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+
 const Stack = createNativeStackNavigator();
 
 function App () {
@@ -25,14 +26,5 @@ function App () {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default observer(App);

@@ -1,28 +1,23 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
-  Image,
   KeyboardAvoidingView,
-  Pressable,
-  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import validator from 'validator';
 import { toRegister, createTable } from '../../database';
-import OTPInputView from '@twotalltotems/react-native-otp-input'
-import PhoneInput from "react-native-phone-number-input";
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Logo from '../../components/Logo';
 import OtpPhoneInput from '../../components/OtpPhoneInput';
+import Colors from '../../assets/colors';
 
 const RegisterScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userPhone, setUserPhone] = useState(0)
+  const [userPhone, setUserPhone] = useState('')
   const [phoneCode, setPhoneCode] = useState('')
   const [phoneForValidation, setPhoneForValidation] = useState('')
   const [userPassword, setUserPassword] = useState('');
@@ -62,6 +57,7 @@ const RegisterScreen = ({navigation}) => {
       return;
     }
     toRegister(userName,userEmail,userPhone,userPassword)
+    navigation.navigate('LogIn')
   };
 
   return (
@@ -77,26 +73,21 @@ const RegisterScreen = ({navigation}) => {
           <Input
             title={'Your Name'}
             setValue={setUserName}
-            isPassword={false}
-            keyboardType={'default'}
           />
           <Input
             title={'Your Email'}
             setValue={setUserEmail}
-            isPassword={false}
             keyboardType={'email-address'}
           />
           <Input
             title={'Password'}
             setValue={setUserPassword}
             isPassword={true}
-            keyboardType={'default'}
           />
           <Input
             title={'Password'}
             setValue={setUserConfirmPassword}
             isPassword={true}
-            keyboardType={'default'}
           />
           <Button
             onPress={handleSubmitButton}
@@ -105,7 +96,7 @@ const RegisterScreen = ({navigation}) => {
           <Text
             style={styles.registerTextStyle}
             onPress={() => navigation.navigate('LogIn')}>
-            Have Account? <Text style={{color:'#FFC612'}}>Log In</Text>
+            Have Account? <Text style={{color:Colors.active}}>Log In</Text>
           </Text>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -119,7 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   registerTextStyle: {
-    color: '#9795A4',
+    color: Colors.body,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 14,
