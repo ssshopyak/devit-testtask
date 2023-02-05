@@ -35,10 +35,9 @@ const styles = StyleSheet.create({
     SectionStyle: {
         flexDirection: 'row',
         height: 40,
-        marginTop: 20,
-        marginLeft: 35,
-        marginRight: 35,
-        marginBottom: 20,
+        marginVertical:25,
+        width:'80%',
+        alignSelf:'center'
       },
       underInputText: {
         position:'absolute', 
