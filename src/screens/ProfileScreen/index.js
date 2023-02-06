@@ -7,7 +7,7 @@ import Colors from '../../assets/colors';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   const [isLoading, setIsLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [userData, setUserData] = useState(null)
@@ -18,21 +18,18 @@ export default function ProfileScreen() {
   const [userSkype, setUserSkype] = useState('')
 
   const getData = async() => {
-    setIsLoading(true)
-    await ToGetDataByEmail
-    .then((res) => {
+    ToGetDataByEmail(Auth.Email)
+    .then((res)=>{
       console.log(res)
-      setUserData(res[0])
+      setUserName(res[0]?.Name)
+      setUserEmail(res[0]?.Email)
+      setUserPhone(res[0]?.Phone)
+      setUserPosition(res[0]?.Position)
+      setUserSkype(res[0]?.Skype)
     })
     .finally(()=>{
-      console.log(userData)
-      setUserName(userData?.Name)
-      setUserEmail(userData?.Email)
-      setUserPhone(userData?.Phone)
-      setUserPosition(userData?.Position)
-      setUserSkype(userData?.Skype)
+      setIsLoading(false)
     })
-    setIsLoading(false)
   }
 
   const saveData = () => {
@@ -41,9 +38,9 @@ export default function ProfileScreen() {
 
   useEffect(()=>{
     getData()
-  },[userData])
+  },[])
   
-  if (isLoading) {
+  if (isLoading ) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={Colors.active} />

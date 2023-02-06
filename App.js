@@ -11,8 +11,9 @@ const Stack = createNativeStackNavigator();
 
 function App () {
   if(Auth.isAuthorizated){
-    return <ProfileScreen />
+    return <ProfileScreen/>
   }
+
   return (
     <NavigationContainer>
       <Stack.Navigator

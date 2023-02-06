@@ -3,7 +3,6 @@ import { useState } from "react";
 import Auth from "../store/auth";
 
 const db = SQLite.openDatabase('DevIT.db')
-const email = 'ostap.shopyak@gmail.com'
 
 export const createTable = () => {
      db.transaction((tx)=>{
@@ -40,26 +39,36 @@ export const toGetData = new Promise((resolve, reject) => {
     })
 })
 
-export const ToGetDataByEmail = new Promise((resolve,reject) => {
-    db.transaction((tx)=>{
-        tx.executeSql(
-            `SELECT * FROM Users WHERE Email = "${email}"`, null,
-            (tx,results) => {
-                resolve(results.rows._array)
-                console.log(results.rows._array)
-            },
-            (tx,error) => {
-                reject(error)
-            }
-        )
-    })
+export const ToGetDataByEmail = (email) => {
+    return new Promise((resolve,reject) => {
+        db.transaction((tx)=>{
+            tx.executeSql(
+                `SELECT * FROM Users WHERE Email = "${email}"`, null,
+                (tx,results) => {
+                    resolve(results.rows._array)
+                    console.log(results.rows._array + 'index')
+                },
+                (tx,error) => {
+                    reject(error)
+                }
+            )
+        })
 })
+}
 
 export const UpdateData = (name,email,phone,position,skype) => {
-    db.transaction((tx)=>{
-        tx.executeSql(
-            `UPDATE Users SET Name = ${name},Email = ${email},Phone = ${phone},Position = ${position}, Skype = ${skype} WHERE Email = ${email} `,
-            error => { console.log(error)}
-        )
+    return new Promise((resolve, reject) => {
+        db.transaction((tx)=>{
+            tx.executeSql(
+                `UPDATE Users SET Name = ? , Phone = ? , Position = ? , Skype = ? WHERE Email = ? `,
+                [name,phone,position,skype,email],
+                results => {
+                    console.log(results)
+                },
+                error => {
+                    console.log(error)
+                }
+            )
+        })
     })
 }

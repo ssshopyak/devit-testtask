@@ -2,7 +2,7 @@ import {makeAutoObservable} from 'mobx';
 
 class Auth {
   isAuthorizated = false;
-  Email = '';
+  Email = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -10,14 +10,13 @@ class Auth {
 
   ToAuthorize() {
     this.isAuthorizated = true;
-    console.log(this.isAuthorizated);
   }
   ToLogout() {
     this.isAuthorizated = false;
-    console.log(this.isAuthorizated);
   }
   ToSetEmail(email) {
     this.Email = email;
+    console.log(this.Email + ' from mobx');
   };
 }
 
