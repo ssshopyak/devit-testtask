@@ -1,79 +1,81 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useState} from 'react'
 import {
-  StyleSheet,
-  View,
-  Text,
   KeyboardAvoidingView,
   ScrollView,
-} from 'react-native';
-import validator from 'validator';
-import { toRegister, createTable } from '../../database';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import Logo from '../../components/Logo';
-import OtpPhoneInput from '../../components/OtpPhoneInput';
-import Colors from '../../assets/colors';
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import {isValidNumber} from 'react-native-phone-number-input'
+import validator from 'validator'
+import Colors from '../../assets/colors'
+import Button from '../../components/Button'
+import Input from '../../components/Input'
+import Logo from '../../components/Logo'
+import OtpPhoneInput from '../../components/OtpPhoneInput'
+import {createTable, toRegister} from '../../database'
 
 const RegisterScreen = ({navigation}) => {
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
   const [userPhone, setUserPhone] = useState('')
   const [phoneCode, setPhoneCode] = useState('')
   const [phoneForValidation, setPhoneForValidation] = useState('')
-  const [userPassword, setUserPassword] = useState('');
+  const [userPassword, setUserPassword] = useState('')
   const [userConfirmPassword, setUserConfirmPassword] = useState('')
 
-  useEffect(()=>{
+  useEffect(() => {
     createTable()
-  },[userPhone])
+  }, [userPhone])
 
   const handleSubmitButton = () => {
-    if (!phoneForValidation) {
-      alert('Please fill Name');
-      return;
+    if (!userName) {
+      alert('Please fill Name')
+      return
     }
     if (!userEmail) {
-      alert('Please fill Email');
-      return;
+      alert('Please fill Email')
+      return
     }
     if (!userPassword) {
-      alert('Please fill Password');
-      return;
+      alert('Please fill Password')
+      return
     }
     if (!userConfirmPassword) {
-      alert('Please confirm Password');
-      return;
+      alert('Please confirm Password')
+      return
     }
     if (!phoneCode) {
-      alert('Please fill code');
-      return;
+      alert('Please fill code')
+      return
     }
     if (userPassword !== userConfirmPassword) {
-      alert(`confirm password doesn't match`)
-      return;
+      alert("confirm password doesn't match")
+      return
     }
     if (!validator.isEmail(userEmail)) {
-      alert(`email isn't valid`)
-      return;
+      alert("email isn't valid")
+      return
     }
-    toRegister(userName,userEmail,userPhone,userPassword)
-    navigation.navigate('LogIn')
-  };
+    if (!isValidNumber(phoneForValidation, 'UA')) {
+      alert("phone isn't valid")
+      return
+    }
+    toRegister(userName, userEmail, userPhone, userPassword)
+    navigation.push('LogIn')
+  }
 
   return (
     <View style={{flex: 1}}>
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Logo textUnderLogo={'Sign Up To woorkroom'}/>
+        <Logo textUnderLogo={'Sign Up To woorkroom'} />
         <KeyboardAvoidingView style={styles.inputContainer}>
           <OtpPhoneInput
             setPhoneValidation={setPhoneForValidation}
             setPhone={setUserPhone}
             setPhoneCode={setPhoneCode}
           />
-          <Input
-            title={'Your Name'}
-            setValue={setUserName}
-          />
+          <Input title={'Your Name'} setValue={setUserName} />
           <Input
             title={'Your Email'}
             setValue={setUserEmail}
@@ -89,21 +91,18 @@ const RegisterScreen = ({navigation}) => {
             setValue={setUserConfirmPassword}
             isPassword={true}
           />
-          <Button
-            onPress={handleSubmitButton}
-            title={'Next'}
-          />
+          <Button onPress={handleSubmitButton} title={'Next'} />
           <Text
             style={styles.registerTextStyle}
-            onPress={() => navigation.navigate('LogIn')}>
-            Have Account? <Text style={{color:Colors.active}}>Log In</Text>
+            onPress={() => navigation.push('LogIn')}>
+            Have Account? <Text style={{color: Colors.active}}>Log In</Text>
           </Text>
         </KeyboardAvoidingView>
       </ScrollView>
     </View>
-  );
-};
-export default RegisterScreen;
+  )
+}
+export default RegisterScreen
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -118,4 +117,4 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 10,
   },
-});
+})

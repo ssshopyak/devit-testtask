@@ -1,21 +1,23 @@
-import {observer} from 'mobx-react-lite';
-import { StyleSheet,SafeAreaView, ActivityIndicator } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Auth from './src/store/auth';
-import SignUpScreen from './src/screens/SignUpScreen';
-import LogInScreen from './src/screens/LoginInScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
-import { useFonts } from 'expo-font';
-import Colors from './src/assets/colors';
+import {NavigationContainer} from '@react-navigation/native'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {useFonts} from 'expo-font'
+import {observer} from 'mobx-react-lite'
+import React from 'react'
+import {ActivityIndicator, SafeAreaView, StyleSheet} from 'react-native'
+import FlashMessage from 'react-native-flash-message'
+import Colors from './src/assets/colors'
+import LogInScreen from './src/screens/LoginInScreen'
+import ProfileScreen from './src/screens/ProfileScreen'
+import SignUpScreen from './src/screens/SignUpScreen'
+import Auth from './src/store/auth'
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 const customFonts = {
-  'Poppins': require('./assets/fonts/Poppins-Regular.ttf')
-};
+  Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
+}
 
-function App () {
-  const [fontsLoaded] = useFonts(customFonts);
+function App() {
+  const [fontsLoaded] = useFonts(customFonts)
 
   if (!fontsLoaded) {
     return (
@@ -25,22 +27,24 @@ function App () {
     )
   }
 
-  if (Auth.isAuthorizated){
-    return <ProfileScreen/>
+  if (Auth.isAuthorizated) {
+    return <ProfileScreen />
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name='LogIn' component={LogInScreen}/>
-        <Stack.Screen name='SignUp' component={SignUpScreen}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    <>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name="LogIn" component={LogInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <FlashMessage position="top" />
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -51,4 +55,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default observer(App);
+export default observer(App)

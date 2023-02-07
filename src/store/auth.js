@@ -1,23 +1,23 @@
-import {makeAutoObservable} from 'mobx';
+import {makeAutoObservable} from 'mobx'
 
 class Auth {
-  isAuthorizated = false;
-  Email = null;
+  isAuthorizated = false
+  Email = null
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
   ToAuthorize() {
-    this.isAuthorizated = true;
+    this.isAuthorizated = true
   }
   ToLogout() {
-    this.isAuthorizated = false;
+    this.isAuthorizated = false
   }
   ToSetEmail(email) {
-    this.Email = email;
-    console.log(this.Email + ' from mobx');
-  };
+    this.Email = email
+    console.log(this.Email + ' from mobx')
+  }
 }
 
-export default new Auth();
+export default new Auth()
