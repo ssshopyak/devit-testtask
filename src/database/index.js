@@ -4,12 +4,22 @@ import Auth from '../store/auth'
 const db = SQLite.openDatabase('DevIT.db')
 
 export const createTable = () => {
-  db.transaction(tx => {
-    tx.executeSql(
-      'CREATE TABLE IF NOT EXISTS ' +
-        'Users ' +
-        '(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Email TEXT, Phone TEXT, Password TEXT, Position TEXT, Skype TEXT);',
-    )
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS ' +
+          'Users ' +
+          '(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Email TEXT, Phone TEXT, Password TEXT, Position TEXT, Skype TEXT);',
+        null,
+        () => {
+          console.log('resolve')
+          resolve()
+        },
+        (error) => {
+          reject(error)
+        },
+      )
+    })
   })
 }
 
@@ -33,6 +43,7 @@ export const toGetData = new Promise((resolve, reject) => {
       null,
       (tx, results) => {
         resolve(results.rows._array)
+        console.log('resolve get data')
       },
       (tx, error) => {
         reject(error)
@@ -61,7 +72,7 @@ export const toGetDataByEmail = email => {
 
 export const updateData = (name, email, phone, position, skype) => {
   return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
+    db.transaction(tx => {
       tx.executeSql(
         'UPDATE Users SET Name = ? , Phone = ? , Position = ? , Skype = ? WHERE Email = ? ',
         [name, phone, position, skype, email],

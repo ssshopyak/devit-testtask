@@ -2,15 +2,15 @@ import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {useFonts} from 'expo-font'
 import {observer} from 'mobx-react-lite'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {ActivityIndicator, SafeAreaView, StyleSheet} from 'react-native'
 import FlashMessage from 'react-native-flash-message'
 import Colors from './src/assets/colors'
+import {createTable} from './src/database'
 import LogInScreen from './src/screens/LoginInScreen'
 import ProfileScreen from './src/screens/ProfileScreen'
 import SignUpScreen from './src/screens/SignUpScreen'
 import Auth from './src/store/auth'
-
 const Stack = createNativeStackNavigator()
 const customFonts = {
   Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
@@ -18,8 +18,13 @@ const customFonts = {
 
 function App() {
   const [fontsLoaded] = useFonts(customFonts)
+  const [isDbInitialized, setIsDbInitialized] = useState(false)
 
-  if (!fontsLoaded) {
+  useEffect(() => {
+    createTable().then(setIsDbInitialized(true))
+  }, [])
+
+  if (!fontsLoaded || !isDbInitialized) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={Colors.active} />

@@ -13,7 +13,8 @@ import Button from '../../components/Button'
 import Input from '../../components/Input'
 import Logo from '../../components/Logo'
 import OtpPhoneInput from '../../components/OtpPhoneInput'
-import {createTable, toRegister} from '../../database'
+import {toRegister} from '../../database'
+import Auth from '../../store/auth'
 
 const RegisterScreen = ({navigation}) => {
   const [userName, setUserName] = useState('')
@@ -23,10 +24,6 @@ const RegisterScreen = ({navigation}) => {
   const [phoneForValidation, setPhoneForValidation] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [userConfirmPassword, setUserConfirmPassword] = useState('')
-
-  useEffect(() => {
-    createTable()
-  }, [userPhone])
 
   const handleSubmitButton = () => {
     if (!userName) {
@@ -62,7 +59,7 @@ const RegisterScreen = ({navigation}) => {
       return
     }
     toRegister(userName, userEmail, userPhone, userPassword)
-    navigation.push('LogIn')
+    Auth.ToAuthorize()
   }
 
   return (
