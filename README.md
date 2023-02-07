@@ -6,7 +6,7 @@
 - [x] OTP input
 - [ ] forgot pass
 - [x] validator email, pass, eth
-- [ ] all icons to svg
-- [ ] final refactor
+- [x] all icons to svg
+- [x] final refactor
 - [x] use a custom font
 
