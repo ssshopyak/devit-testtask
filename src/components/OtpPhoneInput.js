@@ -15,8 +15,8 @@ const OtpPhoneInput = ({setPhoneValidation, setPhone, setPhoneCode}) => {
                 <PhoneInput
                     flagButtonStyle={[styles.phoneInput, { marginRight: 20 }]}
                     textContainerStyle={[styles.phoneInput]}
-                    textInputStyle={{ fontSize: 16 }}
-                    codeTextStyle={{ color: Colors.body }}
+                    textInputStyle={{ fontSize: 16, fontFamily: 'Poppins', height:50,marginTop:5,}}
+                    codeTextStyle={{ color: Colors.body, fontFamily: 'Poppins', fontSize: 16, height:20 }}
                     ref={phoneInput}
                     defaultCode="UA"
                     layout="second"
@@ -32,7 +32,7 @@ const OtpPhoneInput = ({setPhoneValidation, setPhone, setPhoneCode}) => {
                 <Text style={styles.underInputText}>Code</Text>
                 <OTPInputView
                     pinCount={4}
-                    style={{ width: '60%', height: 60 }}
+                    style={{ width: '60%', height: 60,}}
                     autoFocusOnLoad
                     codeInputFieldStyle={styles.underlineStyleBase}
                     codeInputHighlightStyle={styles.underlineStyleHighLighted}
@@ -62,9 +62,10 @@ const styles = StyleSheet.create({
         height:50,
         borderWidth:1, 
         borderRadius:15, 
-        borderColor:'#D7D7D7', 
+        borderColor: '#D7D7D7', 
     },
     underlineStyleBase: {
+        fontFamily: 'Poppins',
         marginRight:20,
         fontSize: 16,
         color: Colors.title,

@@ -15,13 +15,14 @@ const Logo = ({textUnderLogo}) => {
 const styles = StyleSheet.create({
     icon: {
         width: '50%',
-        height: 100,
+        height: 90,
         marginTop: 50,
         resizeMode: 'contain',
     },
     titleText: {
+        fontFamily: 'Poppins',
         textAlign: 'center',
-        marginTop: 50,
+        marginTop: 80,
         fontSize: 24,
     },
 })

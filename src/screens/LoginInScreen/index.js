@@ -18,6 +18,10 @@ export default function LogInScreen({navigation}) {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
+  const toForgotPassword = () => {
+    console.log('forgot password')
+  }
+
   const handleSubmitPress = () => {
     if (!userEmail) {
       alert('Please fill Email');
@@ -69,6 +73,11 @@ export default function LogInScreen({navigation}) {
               isPassword={true}
             />
           </View>
+          <View style={styles.forgotPasswordContainer}>
+            <Text style={styles.forgotPassword} onPress={toForgotPassword}>
+              Forgot password?
+            </Text>
+          </View>
           <Button
             onPress={handleSubmitPress}
             title={'Log In'}
@@ -86,10 +95,21 @@ export default function LogInScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+    forgotPasswordContainer: {
+      width:'80%',
+      alignSelf:'center',
+    },
+    forgotPassword: {
+      color:Colors.body,
+      fontFamily:'Poppins',
+      fontSize: 14,
+      textAlign:'right',
+    },
     inputContainer: {
       marginTop:50,
     },
     registerTextStyle: {
+      fontFamily: 'Poppins',
       marginHorizontal: 5,
       color: Colors.body,
       textAlign: 'center',

@@ -39,7 +39,7 @@ export const toGetData = new Promise((resolve, reject) => {
     })
 })
 
-export const ToGetDataByEmail = (email) => {
+export const toGetDataByEmail = (email) => {
     return new Promise((resolve,reject) => {
         db.transaction((tx)=>{
             tx.executeSql(
@@ -56,7 +56,7 @@ export const ToGetDataByEmail = (email) => {
 })
 }
 
-export const UpdateData = (name,email,phone,position,skype) => {
+export const updateData = (name,email,phone,position,skype) => {
     return new Promise((resolve, reject) => {
         db.transaction((tx)=>{
             tx.executeSql(

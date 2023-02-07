@@ -13,7 +13,7 @@ const Input = ({value, setValue, title, isPassword=false, editable=true ,keyboar
 
     return (
         <View style={styles.SectionStyle}>
-            <Text style={styles.underInputText}>{title}</Text>
+            <Text style={styles.overInputText}>{title}</Text>
             <TextInput
               editable={editable}
               style={styles.inputStyle}
@@ -42,17 +42,20 @@ const styles = StyleSheet.create({
         width:'80%',
         alignSelf:'center'
       },
-      underInputText: {
+      overInputText: {
+        fontFamily: 'Poppins',
         position:'absolute', 
+        fontSize:14,
         bottom:40, 
         color:Colors.body
       },
       inputStyle: {
+        fontFamily: 'Poppins',
         paddingVertical:10,
         flex: 1,
         color: Colors.title,
         borderBottomWidth: 1,
-        borderColor: '#dadae8',
+        borderColor: '#D7D7D7',
       },
       iconPasswordVisibility: {
         height:24, 

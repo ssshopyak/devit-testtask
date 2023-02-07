@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   registerTextStyle: {
+    fontFamily: 'Poppins',
     color: Colors.body,
     textAlign: 'center',
     fontWeight: 'bold',

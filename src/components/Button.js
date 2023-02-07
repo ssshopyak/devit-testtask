@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         color: '#000',
         borderColor: Colors.active,
         height: 60,
-        width: '90%',
+        width: '80%',
         alignItems: 'center',
         alignSelf:'center',
         borderRadius: 14,
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     buttonTextStyle: {
+        fontFamily: 'Poppins',
         color: '#000',
         paddingVertical: 10,
         fontSize: 16,
