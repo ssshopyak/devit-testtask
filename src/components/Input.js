@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import {Image, Pressable, StyleSheet, Text, TextInput, View} from 'react-native'
+import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native'
 import Colors from '../assets/colors'
-import Hide from '../assets/icons/hide.png'
-import Show from '../assets/icons/show.png'
+import Hide from '../assets/icons/hide.js'
+import Show from '../assets/icons/show.js'
 
 const Input = ({
   value,
@@ -12,7 +12,7 @@ const Input = ({
   editable = true,
   keyboardType = 'default',
 }) => {
-  const [isVisiblePass, setIsVisiblePass] = useState(false)
+  const [isVisiblePass, setIsVisiblePass] = useState(true)
 
   const togglePasswordVisibility = () => {
     setIsVisiblePass(!isVisiblePass)
@@ -34,11 +34,8 @@ const Input = ({
       {isPassword && (
         <Pressable
           onPress={togglePasswordVisibility}
-          style={{justifyContent: 'center'}}>
-          <Image
-            style={styles.iconPasswordVisibility}
-            source={isVisiblePass ? Show : Hide}
-          />
+          style={styles.iconPasswordVisibility}>
+          {isVisiblePass ? <Show /> : <Hide />}
         </Pressable>
       )}
     </View>
@@ -69,12 +66,9 @@ const styles = StyleSheet.create({
     borderColor: '#D7D7D7',
   },
   iconPasswordVisibility: {
-    height: 24,
-    width: 24,
     position: 'absolute',
     alignSelf: 'center',
-    right: 15,
-    tintColor: Colors.icon,
+    right: 0,
   },
 })
 

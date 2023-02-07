@@ -1,13 +1,11 @@
 import React from 'react'
-import {Image, StyleSheet, Text, View} from 'react-native'
+import {StyleSheet, Text, View} from 'react-native'
+import LogoSVG from '../assets/icons/logo'
 const Logo = ({textUnderLogo}) => {
   return (
     <View>
-      <View style={{alignItems: 'center'}}>
-        <Image
-          source={require('../assets/icons/logo.png')}
-          style={styles.icon}
-        />
+      <View style={styles.iconContainer}>
+        <LogoSVG />
       </View>
       <Text style={styles.titleText}>{textUnderLogo}</Text>
     </View>
@@ -15,11 +13,9 @@ const Logo = ({textUnderLogo}) => {
 }
 
 const styles = StyleSheet.create({
-  icon: {
-    width: '50%',
-    height: 90,
+  iconContainer: {
+    alignItems: 'center',
     marginTop: 50,
-    resizeMode: 'contain',
   },
   titleText: {
     fontFamily: 'Poppins',
