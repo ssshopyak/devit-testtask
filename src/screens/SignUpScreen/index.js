@@ -13,8 +13,9 @@ import Button from '../../components/Button'
 import Input from '../../components/Input'
 import Logo from '../../components/Logo'
 import OtpPhoneInput from '../../components/OtpPhoneInput'
-import {toRegister} from '../../database'
+import {toGetDataByEmail, toRegister} from '../../database'
 import Auth from '../../store/auth'
+import {showError} from '../../utils/flash-messages'
 
 const RegisterScreen = ({navigation}) => {
   const [userName, setUserName] = useState('')
@@ -27,39 +28,51 @@ const RegisterScreen = ({navigation}) => {
 
   const handleSubmitButton = () => {
     if (!userName) {
-      alert('Please fill Name')
+      showError('Please fill Name')
       return
     }
     if (!userEmail) {
-      alert('Please fill Email')
+      showError('Please fill Email')
       return
     }
     if (!userPassword) {
-      alert('Please fill Password')
+      showError('Please fill Password')
       return
     }
     if (!userConfirmPassword) {
-      alert('Please confirm Password')
+      showError('Please confirm Password')
       return
     }
     if (!phoneCode) {
-      alert('Please fill code')
+      showError('Please fill code')
       return
     }
     if (userPassword !== userConfirmPassword) {
-      alert("confirm password doesn't match")
+      showError("Confirm password doesn't match")
       return
     }
     if (!validator.isEmail(userEmail)) {
-      alert("email isn't valid")
+      showError("Email isn't valid")
       return
     }
     if (!isValidNumber(phoneForValidation, 'UA')) {
-      alert("phone isn't valid")
+      showError("Phone isn't valid")
       return
     }
-    toRegister(userName, userEmail, userPhone, userPassword)
-    Auth.ToAuthorize()
+    if (!validator.isStrongPassword(userPassword)) {
+      showError(
+        'Password must contain special characters numbers upper and lowercase letters',
+      )
+      return
+    }
+    toGetDataByEmail(userEmail).then(res => {
+      if (res.length > 0) {
+        showError('Email is already taken')
+      } else {
+        toRegister(userName, userEmail, userPhone, userPassword)
+        Auth.ToAuthorize()
+      }
+    })
   }
 
   return (

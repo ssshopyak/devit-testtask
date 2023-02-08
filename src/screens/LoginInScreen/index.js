@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -12,6 +12,8 @@ import Input from '../../components/Input'
 import Logo from '../../components/Logo'
 import {toGetData} from '../../database'
 import Auth from '../../store/auth'
+import {showError} from '../../utils/flash-messages'
+import styles from './style'
 
 export default function LogInScreen({navigation}) {
   const [userEmail, setUserEmail] = useState('')
@@ -23,11 +25,11 @@ export default function LogInScreen({navigation}) {
 
   const handleSubmitPress = () => {
     if (!userEmail) {
-      alert('Please fill Email')
+      showError('Please fill Email')
       return
     }
     if (!userPassword) {
-      alert('Please fill Password')
+      showError('Please fill Password')
       return
     }
     toGetData.then(res => {
@@ -38,10 +40,10 @@ export default function LogInScreen({navigation}) {
           Auth.ToAuthorize()
           Auth.ToSetEmail(userEmail)
         } else {
-          alert('Wrong Password')
+          showError('Wrong Password')
         }
       } else {
-        alert('Email Address is not Registered')
+        showError('Email Address is not Registered')
       }
     })
   }
@@ -84,28 +86,3 @@ export default function LogInScreen({navigation}) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  forgotPasswordContainer: {
-    width: '80%',
-    alignSelf: 'center',
-  },
-  forgotPassword: {
-    color: Colors.body,
-    fontFamily: 'Poppins',
-    fontSize: 14,
-    textAlign: 'right',
-  },
-  inputContainer: {
-    marginTop: 50,
-  },
-  registerTextStyle: {
-    fontFamily: 'Poppins',
-    marginHorizontal: 5,
-    color: Colors.body,
-    textAlign: 'center',
-    fontSize: 14,
-    alignSelf: 'center',
-    padding: 10,
-  },
-})

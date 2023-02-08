@@ -12,7 +12,7 @@ const Input = ({
   editable = true,
   keyboardType = 'default',
 }) => {
-  const [isVisiblePass, setIsVisiblePass] = useState(true)
+  const [isVisiblePass, setIsVisiblePass] = useState(false)
 
   const togglePasswordVisibility = () => {
     setIsVisiblePass(!isVisiblePass)

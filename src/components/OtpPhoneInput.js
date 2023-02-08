@@ -12,6 +12,7 @@ const OtpPhoneInput = ({setPhoneValidation, setPhone, setPhoneCode}) => {
       <View style={styles.SectionStyle}>
         <Text style={styles.underInputText}>Phone Number</Text>
         <PhoneInput
+          containerStyle={{backgroundColor: '#F2F2F2', height: 50}}
           flagButtonStyle={[styles.phoneInput, {marginRight: 20}]}
           textContainerStyle={[styles.phoneInput]}
           textInputStyle={styles.textInputStyle}
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   textInputStyle: {
+    //backgroundColor: 'red',
     fontSize: 16,
     fontFamily: 'Poppins',
     height: 50,
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
     color: Colors.body,
   },
   phoneInput: {
+    backgroundColor: '#F2F2F2',
     height: 50,
     borderWidth: 1,
     borderRadius: 15,
