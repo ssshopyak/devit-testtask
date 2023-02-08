@@ -1,13 +1,8 @@
 import React, {useState} from 'react'
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import {KeyboardAvoidingView, ScrollView, Text, View} from 'react-native'
 import Colors from '../../assets/colors'
 import Button from '../../components/Button'
+import ForgotPassword from '../../components/ForgotPassword'
 import Input from '../../components/Input'
 import Logo from '../../components/Logo'
 import {toGetData} from '../../database'
@@ -18,9 +13,9 @@ import styles from './style'
 export default function LogInScreen({navigation}) {
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
-
+  const [modalVisible, setModalVisible] = useState(false)
   const toForgotPassword = () => {
-    console.log('forgot password')
+    setModalVisible(true)
   }
 
   const handleSubmitPress = () => {
@@ -81,6 +76,11 @@ export default function LogInScreen({navigation}) {
               <Text style={{color: Colors.active}}> Create Account </Text>
             </Text>
           </KeyboardAvoidingView>
+          <ForgotPassword
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            navigation={navigation}
+          />
         </View>
       </ScrollView>
     </View>

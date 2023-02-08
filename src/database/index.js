@@ -86,3 +86,20 @@ export const updateData = (name, email, phone, position, skype) => {
     })
   })
 }
+
+export const resetPassword = (email, password) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'UPDATE Users SET Password = ? WHERE Email = ? ',
+        [password, email],
+        results => {
+          console.log(results)
+        },
+        error => {
+          console.log(error)
+        },
+      )
+    })
+  })
+}
