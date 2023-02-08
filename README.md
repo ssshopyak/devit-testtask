@@ -9,4 +9,5 @@
 - [x] all icons to svg
 - [x] final refactor
 - [x] use a custom font
+- [x] use a flash-messages
 
